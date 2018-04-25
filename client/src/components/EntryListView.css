@@ -4,15 +4,42 @@
 }
 
 .ui.selection.dropdown,
-.ui.search {
+.ui.search,
+.results {
   margin: 15px auto;
   width: 60%;
-  max-width: 500px;
 }
 
-.ui.icon.input,
-.ui.search > .results {
-  width: 100%;
+.ui.input.search > input {
+  border-radius: 20px;
+}
+
+.results {
+  margin: 0px auto;
+  background-color: rgba(25,25,25,.1);
+  border-radius: 15px;
+}
+
+.search-entry {
+  display: grid;
+  grid-template-columns: 25% 75%;
+  margin: 10px 0px;
+}
+
+.search-entry:hover {
+  background-color: rgba(150,150,150,.3);
+  border-radius: 15px;
+  cursor: pointer;
+}
+
+.book-image {
+  grid-column: 1;
+}
+
+.book-data,
+.book-data > h4 {
+  grid-column: 2;
+  text-align: left;
 }
 
 .entry-image {
