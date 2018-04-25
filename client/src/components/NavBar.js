@@ -1,16 +1,27 @@
-import React from "react";
-import { Route, Link, BrowserRouter, Switch, Redirect } from "react-router-dom";
-import {
-  Navbar,
-  Nav,
-  NavItem,
-  NavDropdown,
-  MenuItem,
-} from "react-bootstrap";
-import { Icon } from "semantic-ui-react";
-const NavBar = () => {
-  return (
-    <div>
+import React, { Component } from 'react';
+import { Route, Link, BrowserRouter, Switch, Redirect } from 'react-router-dom';
+import { Navbar, Nav, NavItem, NavDropdown, MenuItem } from 'react-bootstrap';
+import { Icon } from 'semantic-ui-react';
+import axios from 'axios';
+
+class NavBar extends Component {
+  state = {};
+
+  handleLogout() {
+    const self = this;
+    axios
+      .get('/logout')
+      .then(res => {
+        console.log(res);
+        self.props.handleAuth({ ...res.data });
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
+
+  render() {
+    return (
       <Navbar inverse collapseOnSelect>
         <Navbar.Header>
           <Navbar.Brand>
@@ -44,12 +55,14 @@ const NavBar = () => {
                 <Icon name="plus" size="large" />
               </Link>
             </NavItem>
-            <NavItem eventKey={1.2}>Log out</NavItem>
+            <NavItem eventKey={2} onClick={this.handleLogout.bind(this)}>
+              Log out
+            </NavItem>
           </Nav>
         </Navbar.Collapse>
       </Navbar>
-    </div>
-  );
-};
+    );
+  }
+}
 
 export default NavBar;
