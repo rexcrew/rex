@@ -8,13 +8,14 @@ class NavBar extends Component {
   state = {};
 
   handleLogout() {
-    console.log('logging out');
+    const self = this;
     axios
-      .get('/logut')
-      .then(function(response) {
-        console.log(response);
+      .get('/logout')
+      .then(res => {
+        console.log(res);
+        self.props.handleAuth({ ...res.data });
       })
-      .catch(function(error) {
+      .catch(error => {
         console.log(error);
       });
   }
@@ -55,7 +56,7 @@ class NavBar extends Component {
                   <Icon name="plus" size="large" />
                 </Link>
               </NavItem>
-              <NavItem onClick={this.handleLogout}>Log out</NavItem>
+              <NavItem onClick={this.handleLogout.bind(this)}>Log out</NavItem>
             </Nav>
           </Navbar.Collapse>
         </Navbar>

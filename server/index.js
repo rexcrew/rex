@@ -82,8 +82,8 @@ app.post('/login', (req, res) => {
 
 // LOGOUT
 app.get('/logout', (req, res) => {
-  console.log('logging out now...');
-  res.redirect('/');
+  req.session.destroy();
+  res.json({ isAuthenticated: false, username: null });
 });
 
 // SIGNUP
@@ -272,7 +272,6 @@ app.delete('/u/:userId/:category/:itemId', getUserId, (req, res) => {
 
 // SERVE REACT INDEX.HTML FOR ALL UNHANDLED REQUESTS
 app.get('/*', (req, res) => {
-  console.log('trying to route');
   res.sendFile(path.join(__dirname, '../client/dist/index.html'));
 });
 
