@@ -3,11 +3,12 @@ import React from 'react';
 // Modules
 import axios from 'axios';
 import proxify from 'proxify-url';
-import { Search, Dropdown, Rating, Container } from 'semantic-ui-react';
+import { Dropdown, Rating, Container, Input } from 'semantic-ui-react';
 import _ from 'lodash';
 // Components
 import NavBar from './NavBar';
 import './EntryListView.css';
+import EntryListEntry from './EntryListEntry';
 
 // Category, searchbar, API results for adding recommendations
 class EntryListView extends React.Component {
@@ -26,18 +27,21 @@ class EntryListView extends React.Component {
           value: 'movies',
         },
       ],
+      query: '',
+      loading: false,
       results: [],
     };
     this.handleDropDownChange = this.handleDropDownChange.bind(this);
-    this.search = this.search.bind(this);
+    this.search = _.debounce(this.search.bind(this), 300);
     this.handleResultSelect = this.handleResultSelect.bind(this);
     this.renderResult = this.renderResult.bind(this);
+    this.updateQuery = this.updateQuery.bind(this);
   }
 
   // Brung up entryDetail when user selects book from search
   handleResultSelect(e, data) {
     const params = {
-      id: data.result.apiId,
+      id: data.apiId,
       key: process.env.READ_API,
     };
     const self = this;
@@ -95,16 +99,16 @@ class EntryListView extends React.Component {
       });
   }
 
-  search(e, data) {
-    e.preventDefault();
-
+  search() {
+    const data = this.state.query;
     this.setState({
       results: [],
+      loading: true,
     });
 
     if (this.state.category === 'books') {
       const params = {
-        q: data.value.replace(/\s+/g, '-'),
+        q: data.replace(/\s+/g, '-'),
         key: process.env.READ_API,
       };
       // Proxified URL (for goodReads Cors requests)
@@ -126,6 +130,7 @@ class EntryListView extends React.Component {
 
         self.setState({
           results: books,
+          loading: false,
         });
       });
     }
@@ -163,6 +168,12 @@ class EntryListView extends React.Component {
     );
   }
 
+  updateQuery(e) {
+    this.setState({
+      query: e.target.value,
+    });
+  }
+
   render() {
     const throttledSearch = _.debounce(this.search, 300);
     return (
@@ -179,12 +190,17 @@ class EntryListView extends React.Component {
             options={this.state.categoryOptions}
             onChange={this.handleDropDownChange}
           />
-          <Search
-            onSearchChange={throttledSearch}
-            results={this.state.results}
-            resultRenderer={this.renderResult}
+          <Input
+            className="search"
+            icon={{ name: 'search', circular: true }}
+            placeholder="Search for Rec..."
+            loading={this.state.loading}
+            onChange={(e) => { this.search(); this.updateQuery(e); }}
             onResultSelect={this.handleResultSelect}
           />
+          <div className="results">
+            {this.state.results.map(res => <EntryListEntry data={res} key={res.apiId} handleClick={this.handleResultSelect} />)}
+          </div>
         </Container>
       </div>
     );
