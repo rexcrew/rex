@@ -19,15 +19,16 @@ class EntryListView extends React.Component {
       // Format necessary for semanti-ui search dropdown
       categoryOptions: [
         {
-          text: 'books',
+          text: 'Books',
           value: 'books',
         },
         {
-          text: 'movies',
-          value: 'movies',
+          text: 'Food',
+          value: 'food',
         },
       ],
       query: '',
+      queryLocation: '',
       loading: false,
       results: [],
     };
@@ -152,20 +153,8 @@ class EntryListView extends React.Component {
   handleDropDownChange(event, data) {
     this.setState({
       category: data.value,
+      results: [],
     });
-  }
-
-  // Renders search results from API under searchBar
-  // TODO: add handling for movies
-  renderResult(result) {
-    return (
-      <div>
-        <img className="book-image" src={result.imageUrl} alt="book thumbnail" />
-        <h4>{result.title}</h4>
-        <p>{result.author}</p>
-        <Rating size="tiny" maxRating={5} defaultRating={result.rating} disabled icon="star" />
-      </div>
-    );
   }
 
   updateQuery(e) {
@@ -175,7 +164,6 @@ class EntryListView extends React.Component {
   }
 
   render() {
-    const throttledSearch = _.debounce(this.search, 300);
     return (
       <div>
         <NavBar />
@@ -196,10 +184,16 @@ class EntryListView extends React.Component {
             placeholder="Search for Rec..."
             loading={this.state.loading}
             onChange={(e) => { this.search(); this.updateQuery(e); }}
-            onResultSelect={this.handleResultSelect}
           />
           <div className="results">
-            {this.state.results.map(res => <EntryListEntry data={res} key={res.apiId} handleClick={this.handleResultSelect} />)}
+            {this.state.results.map((res, i) => (
+              <EntryListEntry
+                data={res}
+                key={i}
+                category={this.state.category}
+                handleClick={this.handleResultSelect}
+              />
+            ))}
           </div>
         </Container>
       </div>
