@@ -80,6 +80,12 @@ app.post('/login', (req, res) => {
     });
 });
 
+// LOGOUT
+app.get('/logout', (req, res) => {
+  console.log('logging out now...');
+  res.redirect('/');
+});
+
 // SIGNUP
 app.post('/signup', (req, res) => {
   const {
