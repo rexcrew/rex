@@ -1,13 +1,9 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import './Home.css';
-import book from '../images/book.png';
-import music from '../images/music.png';
-import movie from '../images/movie.png';
-import food from '../images/food.png';
 import NavBar from './NavBar';
 import { Route, Link, BrowserRouter, Switch, Redirect } from 'react-router-dom';
-import { Dropdown, Menu, Button, Container, Header, Icon } from 'semantic-ui-react';
+import { Dropdown, Menu, Button, Container, Header, Icon, Table, Grid } from 'semantic-ui-react';
 
 import { Row, Col } from 'reactstrap';
 
@@ -16,12 +12,60 @@ import BookDetail from './Entry/BookDetail';
 const NewRecommendationButton = () => (
   <div className="newRecButton">
     <Link to="/entry">
-      <Button size="massive" color="teal" borderRadius="30px">
-        New Recommendations
-        <Icon className="plus" name="plus" />
-      </Button>
+      <Button circular className="add round-button" size="massive" color="red" icon="plus" />
     </Link>
   </div>
+);
+
+const RexTable = () => (
+  <Table basic celled padded unstackable>
+    <Table.Body>
+      <Table.Row>
+        <Table.Cell>
+          <Header as="h4">
+            <Header.Content>
+              Lena
+              <Header.Subheader>Human Resources</Header.Subheader>
+            </Header.Content>
+          </Header>
+        </Table.Cell>
+        <Table.Cell>22</Table.Cell>
+      </Table.Row>
+      <Table.Row>
+        <Table.Cell>
+          <Header as="h4">
+            <Header.Content>
+              Matthew
+              <Header.Subheader>Fabric Design</Header.Subheader>
+            </Header.Content>
+          </Header>
+        </Table.Cell>
+        <Table.Cell>15</Table.Cell>
+      </Table.Row>
+      <Table.Row>
+        <Table.Cell>
+          <Header as="h4">
+            <Header.Content>
+              Lindsay
+              <Header.Subheader>Entertainment</Header.Subheader>
+            </Header.Content>
+          </Header>
+        </Table.Cell>
+        <Table.Cell>12</Table.Cell>
+      </Table.Row>
+      <Table.Row>
+        <Table.Cell>
+          <Header as="h4">
+            <Header.Content>
+              Mark
+              <Header.Subheader>Executive</Header.Subheader>
+            </Header.Content>
+          </Header>
+        </Table.Cell>
+        <Table.Cell>11</Table.Cell>
+      </Table.Row>
+    </Table.Body>
+  </Table>
 );
 
 class Home extends Component {
@@ -41,52 +85,21 @@ class Home extends Component {
     return (
       <div>
         <NavBar handleAuth={this.props.handleAuth} />
-        <div className="userName">Welcome! {this.props.username}</div>
-
-        <div className="icon-list">
-          <div>
-            <Link to="/browse">
-              <img
-                src={book}
-                width="80"
-                height="80"
-                onLoad={this.handleImageLoaded.bind(this)}
-                onError={this.handleImageErrored.bind(this)}
-              />
-            </Link>
-          </div>
-          <div>
-            <img
-              src={food}
-              width="80"
-              height="80"
-              onLoad={this.handleImageLoaded.bind(this)}
-              onError={this.handleImageErrored.bind(this)}
-            />
-          </div>
-          <div>
-            <img
-              src={music}
-              width="80"
-              height="80"
-              onLoad={this.handleImageLoaded.bind(this)}
-              onError={this.handleImageErrored.bind(this)}
-            />
-          </div>
-          <div>
-            <img
-              src={movie}
-              width="80"
-              height="80"
-              onLoad={this.handleImageLoaded.bind(this)}
-              onError={this.handleImageErrored.bind(this)}
-            />
-          </div>
+        <div className="landing-page icon-list">
+          <Button circular className="round-button" size="massive" color="red" icon="book" />
+          <Button circular className="round-button" size="massive" color="blue" icon="utensils" />
+          <Button circular className="round-button" size="massive" color="green" icon="music" />
+          <Button circular className="round-button" size="massive" color="yellow" icon="film" />
         </div>
-        <div>
-          <div className="newRec-button">
-            <NewRecommendationButton />
-          </div>
+        <Grid>
+          <Grid.Column width={4} only="computer" />
+          <Grid.Column mobile={16} tablet={16} computer={8}>
+            <RexTable />
+          </Grid.Column>
+          <Grid.Column width={4} only="computer" />
+        </Grid>
+        <div className="newRec-button">
+          <NewRecommendationButton />
         </div>
       </div>
     );
@@ -107,8 +120,6 @@ class FindRecommendationButton extends Component {
               <Dropdown.Item
                 onClick={() => {
                   this.setState({ category: 'books' });
-                  //<Redirect to="/browse" />;
-                  //redirect is like component
                 }}
               >
                 <Link to="/browse">Books</Link>

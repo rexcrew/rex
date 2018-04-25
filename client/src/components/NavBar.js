@@ -22,7 +22,7 @@ class NavBar extends Component {
 
   render() {
     return (
-      <Navbar inverse collapseOnSelect>
+      <Navbar collapseOnSelect>
         <Navbar.Header>
           <Navbar.Brand>
             <Link to="/">Rex</Link>
@@ -50,11 +50,6 @@ class NavBar extends Component {
             </NavDropdown>
           </Nav>
           <Nav pullRight>
-            <NavItem eventKey={1}>
-              <Link to="/entry">
-                <Icon name="plus" size="large" />
-              </Link>
-            </NavItem>
             <NavItem eventKey={2} onClick={this.handleLogout.bind(this)}>
               Log out
             </NavItem>
