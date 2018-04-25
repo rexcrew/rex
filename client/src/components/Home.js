@@ -40,7 +40,7 @@ class Home extends Component {
   render() {
     return (
       <div>
-        <NavBar />
+        <NavBar handleAuth={this.props.handleAuth} />
         <div className="userName">Welcome! {this.props.username}</div>
 
         <div className="icon-list">
