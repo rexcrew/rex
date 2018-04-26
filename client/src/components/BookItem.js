@@ -2,7 +2,7 @@ import moment from 'moment';
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import { Icon, Popup, Image, Button, Modal } from 'semantic-ui-react';
+import { Icon, Popup, Image } from 'semantic-ui-react';
 import rex from '../images/rex.svg';
 
 import './BookItem.css';
