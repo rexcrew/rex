@@ -2,8 +2,8 @@ import moment from 'moment';
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import { Icon, Popup, Image } from 'semantic-ui-react';
-import rex from '../images/rex.svg';
+import { Icon, Grid, Popup, Image, Button } from 'semantic-ui-react';
+import rex from '../images/rex-button.svg';
 
 import './BookItem.css';
 
@@ -49,30 +49,46 @@ class BookItem extends Component {
     return (
       <li>
         <BookItemContainer>
-          <div>
-            <Popup
-              key={id}
-              trigger={<Image src={rex} avatar />}
-              content={`Recommended by ${rexers}`}
-            />
-          </div>
-          <div className="book-detail-container">
-            <div className="book-title-container">
-              <h2 className="book-title" onClick={handleClick}>
+          <Grid columns={3}>
+            <Grid.Row>
+              <Grid.Column width={12}>
                 <Link to={{ pathname: `/browse/${id}`, query: { book, id, recommendations } }}>
                   {title}
                 </Link>
-              </h2>
-            </div>
-          </div>
-          <div className="book-action-container">
-            <Icon
-              name="check"
-              className="book-option"
-              onClick={() => markCompleted({ category, id })}
-              size="big"
-            />
-          </div>
+              </Grid.Column>
+              <Grid.Column width={2} floated={'right'}>
+                <Popup
+                  key={id}
+                  trigger={
+                    <Button
+                      circular
+                      className="upvote-item"
+                      color="blue"
+                      icon="thumbs up"
+                      floated={'right'}
+                    />
+                  }
+                  content={`Recommended by ${rexers}`}
+                />
+              </Grid.Column>
+              <Grid.Column width={2} floated={'right'}>
+                <Popup
+                  key={id}
+                  trigger={
+                    <Button
+                      circular
+                      className="upvote-item"
+                      color="green"
+                      icon="check"
+                      floated={'right'}
+                      onClick={() => markCompleted({ category, id })}
+                    />
+                  }
+                  content={'Mark complete'}
+                />
+              </Grid.Column>
+            </Grid.Row>
+          </Grid>
         </BookItemContainer>
       </li>
     );

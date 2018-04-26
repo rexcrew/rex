@@ -45,3 +45,11 @@
   cursor: pointer;
   color: rgb(53, 122, 201);
 }
+
+.ui.grid {
+  width: 100%;
+}
+
+.ui.icon.button.upvote-item {
+  padding: 0.78571429em 0.78571429em 0.78571429em;
+}
