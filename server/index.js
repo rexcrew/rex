@@ -274,7 +274,7 @@ app.delete('/u/:userId/:category/:itemId', getUserId, (req, res) => {
 });
 
 // HIT YELP API
-app.get('/helpers/food/restaurants', async (req, res) => {
+app.get('/helpers/food', (req, res) => {
   axios.request({
     url: 'https://api.yelp.com/v3/businesses/search',
     headers: {
@@ -288,7 +288,7 @@ app.get('/helpers/food/restaurants', async (req, res) => {
     },
   }).then((results) => {
     res.json(results.data);
-  });
+  }).catch(err=>console.error(err));
 });
 
 app.get('/helpers/spotify', (req, res) => {

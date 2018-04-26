@@ -134,7 +134,18 @@ class EntryListView extends React.Component {
         });
       });
     } else if (this.state.category === 'food') {
-      
+      axios.request({
+        url: `${process.env.SERVER}/helpers/food`,
+        params: {
+          query: this.state.query,
+          location: this.state.queryLocation,
+        },
+      }).then((results) => {
+        console.log(results);
+        this.setState({
+          loading: false,
+        });
+      });
     }
   }
 

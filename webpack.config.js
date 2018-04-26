@@ -47,6 +47,7 @@ module.exports = {
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
       'process.env.READ_API': JSON.stringify(process.env.READ_API),
+      'process.env.SERVER': JSON.stringify(process.env.SERVER),
     }),
   ],
 };
