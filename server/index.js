@@ -274,27 +274,20 @@ app.delete('/u/:userId/:category/:itemId', getUserId, (req, res) => {
 });
 
 // HIT YELP API
-app.get('/helpers/food', async (req, res) => {
-  const params = {
-    q: req.query.query,
-    location: req.query.location,
-  };
-  const url = `https://api.yelp.com/v3/businesses/search?term=${params.q}&location=${params.location}`;
-  const config = {
+app.get('/helpers/food/restaurants', async (req, res) => {
+  axios.request({
+    url: 'https://api.yelp.com/v3/businesses/search',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
       Authorization: `Bearer ${process.env.YELP_API}`,
     },
-  };
-  axios.get(url, config).then((results) => {
-    const restaurants = results.data.businesses.map(restaurant => ({
-      id: restaurant.id,
-      name: restaurant.name,
-      imageUrl: restaurant.image_url,
-      url: restaurant.url,
-      rating: restaurant.rating,
-    }));
-    res.json(restaurants);
+    params: {
+      term: req.query.query,
+      location: req.query.location,
+      categories: 'restaurants',
+    },
+  }).then((results) => {
+    res.json(results.data);
   });
 });
 
