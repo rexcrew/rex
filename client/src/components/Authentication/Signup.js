@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 // modules
 import { Form } from 'semantic-ui-react';
 import axios from 'axios';
+import NavBar from '../NavBar';
 
 class Signup extends Component {
   state = {
@@ -30,36 +31,39 @@ class Signup extends Component {
     const { username, password, firstName, lastName } = this.state;
 
     return (
-      <Form onSubmit={this.handleSubmit}>
-        <Form.Group>
-          <Form.Input
-            placeholder="First Name"
-            name="firstName"
-            value={firstName}
-            onChange={this.handleChange}
-          />
-          <Form.Input
-            placeholder="Last Name"
-            name="lastName"
-            value={lastName}
-            onChange={this.handleChange}
-          />
-          <Form.Input
-            placeholder="Username"
-            name="username"
-            value={this.state.username}
-            onChange={this.handleChange}
-          />
-          <Form.Input
-            type="password"
-            placeholder="Password"
-            name="password"
-            value={this.state.password}
-            onChange={this.handleChange}
-          />
-          <Form.Button content="Submit" />
-        </Form.Group>
-      </Form>
+      <div>
+        <NavBar loggedIn={false} />
+        <Form onSubmit={this.handleSubmit}>
+          <Form.Group>
+            <Form.Input
+              placeholder="First Name"
+              name="firstName"
+              value={firstName}
+              onChange={this.handleChange}
+            />
+            <Form.Input
+              placeholder="Last Name"
+              name="lastName"
+              value={lastName}
+              onChange={this.handleChange}
+            />
+            <Form.Input
+              placeholder="Username"
+              name="username"
+              value={this.state.username}
+              onChange={this.handleChange}
+            />
+            <Form.Input
+              type="password"
+              placeholder="Password"
+              name="password"
+              value={this.state.password}
+              onChange={this.handleChange}
+            />
+            <Form.Button content="Submit" />
+          </Form.Group>
+        </Form>
+      </div>
     );
   }
 }

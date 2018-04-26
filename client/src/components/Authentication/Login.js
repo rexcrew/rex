@@ -5,6 +5,7 @@ import { Form } from 'semantic-ui-react';
 import axios from 'axios';
 // components
 import './Login.css';
+import NavBar from '../NavBar';
 
 class Login extends Component {
   state = {
@@ -31,24 +32,27 @@ class Login extends Component {
     const { name, email } = this.state;
 
     return (
-      <Form onSubmit={this.handleSubmit}>
-        <Form.Group>
-          <Form.Input
-            placeholder="Username"
-            name="username"
-            value={this.state.username}
-            onChange={this.handleChange}
-          />
-          <Form.Input
-            type="password"
-            placeholder="Password"
-            name="password"
-            value={this.state.password}
-            onChange={this.handleChange}
-          />
-          <Form.Button content="Submit" />
-        </Form.Group>
-      </Form>
+      <div>
+        <NavBar loggedIn={false} />
+        <Form onSubmit={this.handleSubmit}>
+          <Form.Group>
+            <Form.Input
+              placeholder="Username"
+              name="username"
+              value={this.state.username}
+              onChange={this.handleChange}
+            />
+            <Form.Input
+              type="password"
+              placeholder="Password"
+              name="password"
+              value={this.state.password}
+              onChange={this.handleChange}
+            />
+            <Form.Button content="Submit" />
+          </Form.Group>
+        </Form>
+      </div>
     );
   }
 }
