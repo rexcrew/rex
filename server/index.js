@@ -1,9 +1,11 @@
+require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
 const session = require('express-session');
 const bcrypt = require('bcrypt');
 const uuidv4 = require('uuid/v4');
+const axios = require('axios');
 
 const authObj = {};
 
@@ -268,6 +270,44 @@ app.delete('/u/:userId/:category/:itemId', getUserId, (req, res) => {
   deleteQuery(DELETE_BOOK({ userId, category, itemId }))
     .then(sqlRes => res.json({ deleted: itemId }))
     .catch(err => console.log(err));
+});
+
+// HIT YELP API
+app.get('/helpers/food/:queryLocation/:query', async (req, res) => {
+  const params = {
+    q: req.params.query,
+    location: req.params.queryLocation,
+  };
+  const url = `https://api.yelp.com/v3/businesses/search?term=${params.q}&location=${params.location}`;
+  const config = {
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      Authorization: `Bearer ${process.env.YELP_API}`,
+    },
+  };
+  axios.get(url, config).then((results) => {
+    const restaurants = results.data.businesses.map(restaurant => ({
+      id: restaurant.id,
+      name: restaurant.name,
+      imageUrl: restaurant.image_url,
+      url: restaurant.url,
+      rating: restaurant.rating,
+    }));
+    res.json(restaurants);
+  });
+
+  // .then((result) => {
+  //   console.log('RESULT: ', result);
+  //   const resultItems = result.businesses;
+  //   const restaurants = resultItems.map(restaurant => ({
+  //     id: restaurant.id,
+  //     name: restaurant.name,
+  //     imageUrl: restaurant.image_url,
+  //     url: restaurant.url,
+  //     rating: restaurant.rating,
+  //   }));
+  //   res.end(result);
+  // }).catch(err => res.end(err));
 });
 
 // SERVE REACT INDEX.HTML FOR ALL UNHANDLED REQUESTS

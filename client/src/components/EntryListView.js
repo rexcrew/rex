@@ -134,35 +134,7 @@ class EntryListView extends React.Component {
         });
       });
     } else if (this.state.category === 'food') {
-      const headers = {
-        Authorization: `Bearer ${process.env.YELP_API}`,
-      };
-      const params = {
-        q: data,
-        location: this.state.queryLocation,
-      };
-      const url = `https://api.yelp.com/v3/businesses/search?term=${params.q}&location=${params.location}`;
-      const that = this;
-      const instance = axios.create({
-        'Access-Control-Allow-Origin': '',
-        headers: {Authorization: `Bearer ${process.env.YELP_API}`}
-      });
-      instance.get(url).then((res) => {
-        console.log(res);
-        const resultItems = res.businesses;
-        const restaurants = resultItems.map(restaurant => ({
-          id: restaurant.id,
-          name: restaurant.name,
-          imageUrl: restaurant.image_url,
-          url: restaurant.url,
-          rating: restaurant.rating,
-        }));
-
-        that.setState({
-          results: restaurants,
-          loading: false,
-        });
-      });
+      
     }
   }
 
@@ -207,7 +179,7 @@ class EntryListView extends React.Component {
           icon={{ name: 'search', circular: true }}
           placeholder="Specify Location"
           loading={this.state.loading}
-          onChange={(e) => { this.search(); this.updateQuery(e); }}
+          onChange={(e) => { this.search(); this.updateLocation(e); }}
         />
       );
     } else { locationSearch = <div />; }
