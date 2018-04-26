@@ -41,64 +41,90 @@ class EntryListView extends React.Component {
 
   // Brung up entryDetail when user selects book from search
   handleResultSelect(e, data) {
-    const params = {
-      id: data.apiId,
-      key: process.env.READ_API,
-    };
     const self = this;
-    // Proxify necessary for Goodreads CORS requests
-    const url = proxify(
-      `https://www.goodreads.com/book/show.xml?id=${params.id}&key=${params.key}`,
-      { inputFormat: 'xml' },
-    );
+    if (this.state.category === 'books') {
+      const params = {
+        id: data.apiId,
+        key: process.env.READ_API,
+      };
+      // Proxify necessary for Goodreads CORS requests
+      const url = proxify(
+        `https://www.goodreads.com/book/show.xml?id=${params.id}&key=${params.key}`,
+        { inputFormat: 'xml' },
+      );
 
-    axios
-      .get(url)
-      .then((res) => {
-        const { book } = res.data.query.results.GoodreadsResponse;
-        let authors;
+      axios
+        .get(url)
+        .then((res) => {
+          const { book } = res.data.query.results.GoodreadsResponse;
+          let authors;
 
-        // Goodreads sends array for multiple authors, object for single
-        if (Array.isArray(book.authors.author)) {
-          authors = book.authors.author
-            .map((author) => {
-              // Goodreads includes illustrators, etc as 'authors'
-              // Creates string of authors and their roles
-              if (author.role) {
-                return `${author.name} (${author.role})`;
-              }
-              return author.name;
-            })
-            .join(', ');
-        } else {
-          authors = book.authors.author.name;
-        }
+          // Goodreads sends array for multiple authors, object for single
+          if (Array.isArray(book.authors.author)) {
+            authors = book.authors.author
+              .map((author) => {
+                // Goodreads includes illustrators, etc as 'authors'
+                // Creates string of authors and their roles
+                if (author.role) {
+                  return `${author.name} (${author.role})`;
+                }
+                return author.name;
+              })
+              .join(', ');
+          } else {
+            authors = book.authors.author.name;
+          }
 
-        self.setState({
-          resultDetail: {
-            title: book.title,
-            rating: book.average_rating,
-            apiId: book.id,
-            authors,
-            yearPublished: book.publication_year,
-            description: book.description
-              .split('<br /><br />')
-              .map(paragraph => paragraph.replace(/<.*?>/gm, '')),
-            imageUrl: book.image_url,
-            link: book.link,
+          self.setState({
+            resultDetail: {
+              title: book.title,
+              rating: book.average_rating,
+              apiId: book.id,
+              authors,
+              yearPublished: book.publication_year,
+              description: book.description
+                .split('<br /><br />')
+                .map(paragraph => paragraph.replace(/<.*?>/gm, '')),
+              imageUrl: book.image_url,
+              link: book.link,
+            },
+          });
+
+          // Reactrouting
+          self.props.history.push({
+            pathname: `/entry/${self.state.resultDetail.apiId}`,
+            state: { result: self.state.resultDetail },
+          });
+        })
+        .catch((err) => {
+          throw err;
+        });
+    } else if (this.state.category === 'food') {
+      axios
+        .get('/helpers/food/details', {
+          params: {
+            id: data.id,
           },
+        }).then((res) => {
+          self.setState({
+            resultDetail: {
+              name: res.name,
+              rating: res.rating,
+              id: res.id,
+              url: res.url,
+              phone: res.display_phone,
+              location: res.display_address,
+              photos: res.photos,
+              price: res.price,
+              categories: res.categories,
+            },
+          });
+          self.props.history.push({
+            pathname: `/entry/${self.state.resultDetail.id}`,
+            state: { result: self.state.resultDetail },
+          });
         });
-
-        // Reactrouting
-        console.log(self.props);
-        self.props.history.push({
-          pathname: `/entry/${self.state.resultDetail.apiId}`,
-          state: { result: self.state.resultDetail },
-        });
-      })
-      .catch((err) => {
-        throw err;
-      });
+    }
   }
 
   search() {
