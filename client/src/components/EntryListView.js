@@ -186,7 +186,7 @@ class EntryListView extends React.Component {
 
     return (
       <div>
-        <NavBar />
+        <NavBar loggedIn handleAuth={this.props.handleAuth} />
         <Container>
           <div className="page-title">
             <h1>Add New Recommendations</h1>
@@ -203,7 +203,10 @@ class EntryListView extends React.Component {
             icon={{ name: 'search', circular: true }}
             placeholder="Search for Rec..."
             loading={this.state.loading}
-            onChange={(e) => { this.search(); this.updateQuery(e); }}
+            onChange={(e) => {
+              this.search();
+              this.updateQuery(e);
+            }}
           />
           {locationSearch}
           <div className="results">
