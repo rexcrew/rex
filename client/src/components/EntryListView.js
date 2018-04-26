@@ -141,8 +141,15 @@ class EntryListView extends React.Component {
           location: this.state.queryLocation,
         },
       }).then((results) => {
-        console.log(results);
+        console.log(results.data);
+        const restaurants = results.data.businesses.map(restaurant => ({
+          id: restaurant.id,
+          name: restaurant.name,
+          rating: restaurant.rating,
+          imageUrl: restaurant.url,
+        }));
         this.setState({
+          results: restaurants,
           loading: false,
         });
       });
