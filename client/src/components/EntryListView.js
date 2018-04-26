@@ -187,7 +187,7 @@ class EntryListView extends React.Component {
     } else if (this.state.category === 'music') {
       axios.get('/helpers/spotify', {
         params: {
-          query: this.state.query,
+          song: this.state.query,
         },
       }).then((results) => {
         const songs = results.data.tracks.items.map(song => ({
