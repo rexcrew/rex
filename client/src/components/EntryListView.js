@@ -178,7 +178,7 @@ class EntryListView extends React.Component {
     const throttledSearch = _.debounce(this.search, 300);
     return (
       <div>
-        <NavBar />
+        <NavBar loggedIn handleAuth={this.props.handleAuth} />
         <Container>
           <div className="page-title">
             <h1>Add New Recommendations</h1>
@@ -195,11 +195,16 @@ class EntryListView extends React.Component {
             icon={{ name: 'search', circular: true }}
             placeholder="Search for Rec..."
             loading={this.state.loading}
-            onChange={(e) => { this.search(); this.updateQuery(e); }}
+            onChange={(e) => {
+              this.search();
+              this.updateQuery(e);
+            }}
             onResultSelect={this.handleResultSelect}
           />
           <div className="results">
-            {this.state.results.map(res => <EntryListEntry data={res} key={res.apiId} handleClick={this.handleResultSelect} />)}
+            {this.state.results.map(res => (
+              <EntryListEntry data={res} key={res.apiId} handleClick={this.handleResultSelect} />
+            ))}
           </div>
         </Container>
       </div>
