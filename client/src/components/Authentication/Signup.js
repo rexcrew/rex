@@ -1,7 +1,7 @@
 // react
 import React, { Component } from 'react';
 // modules
-import { Form } from 'semantic-ui-react';
+import { Form, Container, Button } from 'semantic-ui-react';
 import axios from 'axios';
 import NavBar from '../NavBar';
 
@@ -33,36 +33,42 @@ class Signup extends Component {
     return (
       <div>
         <NavBar loggedIn={false} />
-        <Form onSubmit={this.handleSubmit}>
-          <Form.Group>
-            <Form.Input
-              placeholder="First Name"
-              name="firstName"
-              value={firstName}
-              onChange={this.handleChange}
-            />
-            <Form.Input
-              placeholder="Last Name"
-              name="lastName"
-              value={lastName}
-              onChange={this.handleChange}
-            />
-            <Form.Input
-              placeholder="Username"
-              name="username"
-              value={this.state.username}
-              onChange={this.handleChange}
-            />
-            <Form.Input
-              type="password"
-              placeholder="Password"
-              name="password"
-              value={this.state.password}
-              onChange={this.handleChange}
-            />
-            <Form.Button content="Submit" />
-          </Form.Group>
-        </Form>
+        <Container>
+          <Form onSubmit={this.handleSubmit}>
+            <Form>
+              <label>First</label>
+              <Form.Input
+                // placeholder="First Name"
+                name="firstName"
+                value={firstName}
+                onChange={this.handleChange}
+              />
+              <label>Last</label>
+              <Form.Input
+                // placeholder="Last Name"
+                name="lastName"
+                value={lastName}
+                onChange={this.handleChange}
+              />
+              <label>Username</label>
+              <Form.Input
+                // placeholder="Username"
+                name="username"
+                value={this.state.username}
+                onChange={this.handleChange}
+              />
+              <label>Password</label>
+              <Form.Input
+                type="password"
+                // placeholder="Password"
+                name="password"
+                value={this.state.password}
+                onChange={this.handleChange}
+              />
+              <Button className="signup-button" floated="right" content="Submit" color="blue" />
+            </Form>
+          </Form>
+        </Container>
       </div>
     );
   }

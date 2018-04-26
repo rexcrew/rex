@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 
-import { Button } from 'semantic-ui-react';
+import { Button, Container, Grid } from 'semantic-ui-react';
 
 import Login from './Login';
 import Signup from './Signup';
 import NavBar from '../NavBar';
+import './Login.css';
 
 class Auth extends Component {
   state = {
@@ -33,8 +34,28 @@ class Auth extends Component {
       return (
         <div>
           <NavBar loggedIn={false} />
-          <Button onClick={() => this.handleLoginClick()}>Login</Button>
-          <Button onClick={() => this.handleSignupClick()}>Signup</Button>
+          <Container>
+            <div className="auth">
+              <Button
+                className="auth-button"
+                size="massive"
+                color="green"
+                onClick={() => this.handleLoginClick()}
+              >
+                Login
+              </Button>
+              <div className="auth">
+                <Button
+                  className="auth-button"
+                  size="massive"
+                  color="yellow"
+                  onClick={() => this.handleSignupClick()}
+                >
+                  Signup
+                </Button>
+              </div>
+            </div>
+          </Container>
         </div>
       );
     }

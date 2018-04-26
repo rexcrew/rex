@@ -1,7 +1,7 @@
 // React
 import React, { Component } from 'react';
 // modules
-import { Form } from 'semantic-ui-react';
+import { Form, Container, Button } from 'semantic-ui-react';
 import axios from 'axios';
 // components
 import './Login.css';
@@ -34,24 +34,28 @@ class Login extends Component {
     return (
       <div>
         <NavBar loggedIn={false} />
-        <Form onSubmit={this.handleSubmit}>
-          <Form.Group>
-            <Form.Input
-              placeholder="Username"
-              name="username"
-              value={this.state.username}
-              onChange={this.handleChange}
-            />
-            <Form.Input
-              type="password"
-              placeholder="Password"
-              name="password"
-              value={this.state.password}
-              onChange={this.handleChange}
-            />
-            <Form.Button content="Submit" />
-          </Form.Group>
-        </Form>
+        <Container text>
+          <Form onSubmit={this.handleSubmit}>
+            <Form>
+              <label>Username</label>
+              <Form.Input
+                // placeholder="Username"
+                name="username"
+                value={this.state.username}
+                onChange={this.handleChange}
+              />
+              <label>Password</label>
+              <Form.Input
+                type="password"
+                // placeholder="Password"
+                name="password"
+                value={this.state.password}
+                onChange={this.handleChange}
+              />
+              <Button className="login-button" floated="right" content="Submit" color="blue" />
+            </Form>
+          </Form>
+        </Container>
       </div>
     );
   }

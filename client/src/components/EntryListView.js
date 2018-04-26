@@ -35,7 +35,7 @@ class EntryListView extends React.Component {
     this.handleDropDownChange = this.handleDropDownChange.bind(this);
     this.search = _.debounce(this.search.bind(this), 300);
     this.handleResultSelect = this.handleResultSelect.bind(this);
-    this.renderResult = this.renderResult.bind(this);
+    // this.renderResult = this.renderResult.bind(this);
     this.updateQuery = this.updateQuery.bind(this);
   }
 

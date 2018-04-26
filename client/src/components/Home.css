@@ -20,6 +20,11 @@ body {
   max-height: fit-content;
 }
 
+label {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 14px;
+}
+
 .add-rec {
   display: flex;
   margin-top: 30px;
