@@ -39,7 +39,6 @@ class Login extends Component {
             <Form>
               <label>Username</label>
               <Form.Input
-                // placeholder="Username"
                 name="username"
                 value={this.state.username}
                 onChange={this.handleChange}
@@ -47,7 +46,6 @@ class Login extends Component {
               <label>Password</label>
               <Form.Input
                 type="password"
-                // placeholder="Password"
                 name="password"
                 value={this.state.password}
                 onChange={this.handleChange}
