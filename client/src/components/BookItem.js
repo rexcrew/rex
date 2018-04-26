@@ -2,7 +2,7 @@ import moment from 'moment';
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import { Icon, Popup, Image, Button, Modal, Header } from 'semantic-ui-react';
+import { Icon, Popup, Image, Button, Modal } from 'semantic-ui-react';
 import rex from '../images/rex.svg';
 
 import './BookItem.css';
@@ -73,18 +73,6 @@ class BookItem extends Component {
               size="big"
             />
           </div>
-          <Button onClick={this.show(false)}>None</Button>
-          <Modal open={open} onClose={this.close}>
-            <Modal.Header>Select a Photo</Modal.Header>
-            <Modal.Content image>
-              <Image wrapped size="medium" src={`${thumbnail_url}`} />
-              <Modal.Description>
-                <Header>Default Profile Image</Header>
-                <p>We've found the following gravatar image associated with your e-mail address.</p>
-                <p>Is it okay to use this photo?</p>
-              </Modal.Description>
-            </Modal.Content>
-          </Modal>
         </BookItemContainer>
       </li>
     );
