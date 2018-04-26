@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { Icon, Grid, Popup, Image, Button } from 'semantic-ui-react';
-import rex from '../images/rex-button.svg';
 
 import './BookItem.css';
 
@@ -11,7 +10,7 @@ const BookItemContainer = styled.div`
   display: flex;
   height: auto;
   border-bottom: 3px solid #2185d0;
-  padding: 15px;
+  padding: 15px auto;
   overflow: hidden;
 `;
 
@@ -49,14 +48,20 @@ class BookItem extends Component {
     return (
       <li>
         <BookItemContainer>
-          <Grid columns={3}>
+          <Grid columns={4}>
             <Grid.Row>
-              <Grid.Column width={12}>
-                <Link to={{ pathname: `/browse/${id}`, query: { book, id, recommendations } }}>
+              <Grid.Column width={4} verticalAlign={'middle'}>
+                <Image src={`${book.thumbnail_url}`} size="tiny" />
+              </Grid.Column>
+              <Grid.Column width={8} verticalAlign={'middle'}>
+                <Link
+                  className={'title'}
+                  to={{ pathname: `/browse/${id}`, query: { book, id, recommendations } }}
+                >
                   {title}
                 </Link>
               </Grid.Column>
-              <Grid.Column width={2} floated={'right'}>
+              <Grid.Column width={2} floated={'right'} verticalAlign={'middle'}>
                 <Popup
                   key={id}
                   trigger={
@@ -71,7 +76,7 @@ class BookItem extends Component {
                   content={`Recommended by ${rexers}`}
                 />
               </Grid.Column>
-              <Grid.Column width={2} floated={'right'}>
+              <Grid.Column width={2} floated={'right'} verticalAlign={'middle'}>
                 <Popup
                   key={id}
                   trigger={
