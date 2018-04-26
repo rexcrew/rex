@@ -26,6 +26,18 @@ const EntryListEntry = (props) => {
         </div>
       </div>
     );
+  } else if (props.category === 'music') {
+    return (
+      <div className="search-entry" onClick={() => { props.handleClick({}, props.data) }}>
+        <img className="music-image result-image" src={props.data.album.images[0].url} height="130" width="130" alt="restaurant thumbnail" />
+        <div className="musid-data result-data">
+          <h4>{props.data.name}</h4>
+          <Rating size="medium" maxRating={5} defaultRating={props.data.rating} disabled icon="star" />
+          <p>{props.data.artist[0].name}</p>
+          <p>{props.data.album.name}</p>
+        </div>
+      </div>
+    );
   }
   return <div />;
 };

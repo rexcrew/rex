@@ -27,6 +27,10 @@ class EntryListView extends React.Component {
           text: 'Food',
           value: 'food',
         },
+        {
+          text: 'Music',
+          value: 'music',
+        }
       ],
       query: '',
       queryLocation: '',
@@ -93,7 +97,7 @@ class EntryListView extends React.Component {
           // Reactrouting
           self.props.history.push({
             pathname: `/entry/${self.state.resultDetail.apiId}`,
-            state: { result: self.state.resultDetail },
+            state: { result: self.state.resultDetail, category: self.state.category },
           });
         })
         .catch((err) => {
@@ -121,7 +125,7 @@ class EntryListView extends React.Component {
           });
           self.props.history.push({
             pathname: `/entry/${self.state.resultDetail.id}`,
-            state: { result: self.state.resultDetail },
+            state: { result: self.state.resultDetail, category: self.state.category },
           });
         });
     }
@@ -177,6 +181,24 @@ class EntryListView extends React.Component {
         }));
         that.setState({
           results: restaurants,
+          loading: false,
+        });
+      });
+    } else if (this.state.category === 'music') {
+      axios.get('/helpers/spotify', {
+        params: {
+          query: this.state.query,
+        },
+      }).then((results) => {
+        const songs = results.data.tracks.items.map(song => ({
+          id: song.id,
+          name: song.name,
+          artist: song.artists,
+          album: song.album,
+          popularity: song.popularity,
+        }));
+        that.setState({
+          results: songs,
           loading: false,
         });
       });
