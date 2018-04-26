@@ -14,8 +14,18 @@ const EntryListEntry = (props) => {
         </div>
       </div>
     );
+  } else if (props.category === 'food') {
+    return (
+      <div className="search-entry" onClick={() => { props.handleClick({}, props.data) }}>
+        <img className="restaurant-image" src={props.data.imageUrl} alt="restaurant thumbnail" />
+        <div className="restaurant-data">
+          <h4>{props.data.name}</h4>
+          <Rating size="medium" maxRating={5} defaultRating={props.data.rating} disabled icon="star" />
+        </div>
+      </div>
+    );
   }
-  return <div></div>
-}
+  return <div />;
+};
 
 export default EntryListEntry;

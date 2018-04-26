@@ -35,7 +35,6 @@ class EntryListView extends React.Component {
     this.handleDropDownChange = this.handleDropDownChange.bind(this);
     this.search = _.debounce(this.search.bind(this), 300);
     this.handleResultSelect = this.handleResultSelect.bind(this);
-    this.renderResult = this.renderResult.bind(this);
     this.updateQuery = this.updateQuery.bind(this);
   }
 
@@ -117,7 +116,7 @@ class EntryListView extends React.Component {
         `https://www.goodreads.com/search/index.xml?q=${params.q}&key=${params.key}`,
         { inputFormat: 'xml' },
       );
-      const self = this;
+      const that = this;
 
       axios.get(url).then((res) => {
         const resultItems = res.data.query.results.GoodreadsResponse.search.results.work;
@@ -129,8 +128,38 @@ class EntryListView extends React.Component {
           imageUrl: book.best_book.image_url,
         }));
 
-        self.setState({
+        that.setState({
           results: books,
+          loading: false,
+        });
+      });
+    } else if (this.state.category === 'food') {
+      const headers = {
+        Authorization: `Bearer ${process.env.YELP_API}`,
+      };
+      const params = {
+        q: data,
+        location: this.state.queryLocation,
+      };
+      const url = `https://api.yelp.com/v3/businesses/search?term=${params.q}&location=${params.location}`;
+      const that = this;
+      const instance = axios.create({
+        'Access-Control-Allow-Origin': '',
+        headers: {Authorization: `Bearer ${process.env.YELP_API}`}
+      });
+      instance.get(url).then((res) => {
+        console.log(res);
+        const resultItems = res.businesses;
+        const restaurants = resultItems.map(restaurant => ({
+          id: restaurant.id,
+          name: restaurant.name,
+          imageUrl: restaurant.image_url,
+          url: restaurant.url,
+          rating: restaurant.rating,
+        }));
+
+        that.setState({
+          results: restaurants,
           loading: false,
         });
       });
@@ -163,7 +192,26 @@ class EntryListView extends React.Component {
     });
   }
 
+  updateLocation(e) {
+    this.setState({
+      queryLocation: e.target.value,
+    });
+  }
+
   render() {
+    let locationSearch = <div />;
+    if (this.state.category === 'food') {
+      locationSearch = (
+        <Input
+          className="search"
+          icon={{ name: 'search', circular: true }}
+          placeholder="Specify Location"
+          loading={this.state.loading}
+          onChange={(e) => { this.search(); this.updateQuery(e); }}
+        />
+      );
+    } else { locationSearch = <div />; }
+
     return (
       <div>
         <NavBar />
@@ -185,6 +233,7 @@ class EntryListView extends React.Component {
             loading={this.state.loading}
             onChange={(e) => { this.search(); this.updateQuery(e); }}
           />
+          {locationSearch}
           <div className="results">
             {this.state.results.map((res, i) => (
               <EntryListEntry
