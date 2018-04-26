@@ -108,6 +108,13 @@ button.add.circular.ui.icon {
   padding-top: 0.25em;
   font-size: 2em;
 }
+
+.category-button {
+  opacity: 0.6;
+}
+.active.category-button {
+  opacity: 1;
+}
 /* end - round buttons */
 
 .landing-page.icon-list {

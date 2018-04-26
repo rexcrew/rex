@@ -1,5 +1,6 @@
 // React
 import React from 'react';
+import { withRouter } from 'react-router-dom';
 // Modules
 import axios from 'axios';
 import proxify from 'proxify-url';
@@ -89,6 +90,7 @@ class EntryListView extends React.Component {
         });
 
         // Reactrouting
+        console.log(self.props);
         self.props.history.push({
           pathname: `/entry/${self.state.resultDetail.apiId}`,
           state: { result: self.state.resultDetail },
@@ -242,4 +244,4 @@ class EntryListView extends React.Component {
   }
 }
 
-export default EntryListView;
+export default withRouter(EntryListView);
