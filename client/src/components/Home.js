@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import './Home.css';
 import NavBar from './NavBar';
+import BrowseView from './BrowseView';
 import { Route, Link, BrowserRouter, Switch, Redirect } from 'react-router-dom';
 import { Dropdown, Menu, Button, Container, Header, Icon, Table, Grid } from 'semantic-ui-react';
 
@@ -35,11 +36,36 @@ class Home extends Component {
       <div>
         <NavBar loggedIn={true} handleAuth={this.props.handleAuth} />
         <div className="landing-page icon-list">
-          <Button circular className="round-button" size="massive" color="red" icon="book" />
-          <Button circular className="round-button" size="massive" color="blue" icon="utensils" />
-          <Button circular className="round-button" size="massive" color="green" icon="music" />
-          <Button circular className="round-button" size="massive" color="yellow" icon="film" />
+          <Button
+            circular
+            className="active category-button round-button"
+            size="massive"
+            color="red"
+            icon="book"
+          />
+          <Button
+            circular
+            className="category-button round-button"
+            size="massive"
+            color="blue"
+            icon="utensils"
+          />
+          <Button
+            circular
+            className="category-button round-button"
+            size="massive"
+            color="green"
+            icon="music"
+          />
+          <Button
+            circular
+            className="category-button round-button"
+            size="massive"
+            color="yellow"
+            icon="film"
+          />
         </div>
+        <BrowseView />
         <div className="newRec-button">
           <NewRecommendationButton />
         </div>
