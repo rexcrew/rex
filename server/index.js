@@ -274,10 +274,10 @@ app.delete('/u/:userId/:category/:itemId', getUserId, (req, res) => {
 });
 
 // HIT YELP API
-app.get('/helpers/food/:queryLocation/:query', async (req, res) => {
+app.get('/helpers/food', async (req, res) => {
   const params = {
-    q: req.params.query,
-    location: req.params.queryLocation,
+    q: req.query.query,
+    location: req.query.location,
   };
   const url = `https://api.yelp.com/v3/businesses/search?term=${params.q}&location=${params.location}`;
   const config = {
@@ -296,19 +296,6 @@ app.get('/helpers/food/:queryLocation/:query', async (req, res) => {
     }));
     res.json(restaurants);
   });
-
-  // .then((result) => {
-  //   console.log('RESULT: ', result);
-  //   const resultItems = result.businesses;
-  //   const restaurants = resultItems.map(restaurant => ({
-  //     id: restaurant.id,
-  //     name: restaurant.name,
-  //     imageUrl: restaurant.image_url,
-  //     url: restaurant.url,
-  //     rating: restaurant.rating,
-  //   }));
-  //   res.end(result);
-  // }).catch(err => res.end(err));
 });
 
 app.get('/helpers/spotify', (req, res) => {
