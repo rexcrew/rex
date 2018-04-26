@@ -1,72 +1,94 @@
 import moment from 'moment';
-import React from 'react';
+import React, { Component } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import { Icon } from 'semantic-ui-react';
+import { Icon, Popup, Image, Button, Modal, Header } from 'semantic-ui-react';
+import rex from '../images/rex.svg';
 
 import './BookItem.css';
 
 const BookItemContainer = styled.div`
   display: flex;
   height: auto;
-  border: 1px solid grey;
-  border-width: hairline;
-  border-radius: 5px;
+  border-bottom: 3px solid #2185d0;
   padding: 15px;
   overflow: hidden;
 `;
 
-const BookItem = ({
-  id,
-  book,
-  recommendations,
-  markCompleted,
-  deleteBook,
-  category,
-  handleClick,
-}) => {
-  const { title, description, thumbnail_url } = book;
-  const firstRecommender = recommendations[0];
+class BookItem extends Component {
+  state = {
+    category: '',
+    imageStatus: 'loading',
+    open: false,
+  };
 
-  return (
-    <li>
-      <BookItemContainer>
-        <span className="recommender">Recommenders: {recommendations.length}</span>
-        <div className="book-image-container">
-          <img className="book-image" src={`${thumbnail_url}`} alt="" />
-        </div>
-        <div className="book-detail-container">
-          <div className="book-title-container">
-            <h2 className="book-title" onClick={handleClick}>
-              <Link to={{ pathname: `/browse/${id}`, query: { book, id, recommendations } }}>
-                {title}
-              </Link>
-            </h2>
-            <p className="book-description">{description}</p>
+  show = dimmer => () => this.setState({ dimmer, open: true });
+  close = () => this.setState({ open: false });
+
+  render() {
+    const { open, dimmer } = this.state;
+    const {
+      id,
+      book,
+      recommendations,
+      markCompleted,
+      deleteBook,
+      category,
+      handleClick,
+    } = this.props;
+    const { title, description, thumbnail_url } = book;
+    const firstRecommender = recommendations[0];
+    let rexers = recommendations.map(rec => rec.recommender_name);
+    const lastRexer = rexers.pop();
+    rexers = rexers.join(', ');
+    if (rexers.length) {
+      rexers += ` & ${lastRexer}`;
+    } else {
+      rexers = lastRexer;
+    }
+    return (
+      <li>
+        <BookItemContainer>
+          <div>
+            <Popup
+              key={id}
+              trigger={<Image src={rex} avatar />}
+              content={`Recommended by ${rexers}`}
+            />
           </div>
-          <div className="book-recommender-container">
-            <span className="book-recommender-name">Recommended By:</span>{' '}
-            {firstRecommender.recommender_name} <span className="book-recommended-date">Date:</span>{' '}
-            {moment(firstRecommender.date_added).format('L')}
+          <div className="book-detail-container">
+            <div className="book-title-container">
+              <h2 className="book-title" onClick={handleClick}>
+                <Link to={{ pathname: `/browse/${id}`, query: { book, id, recommendations } }}>
+                  {title}
+                </Link>
+              </h2>
+            </div>
           </div>
-        </div>
-        <div className="book-action-container">
-          <Icon
-            name="check"
-            className="book-option"
-            onClick={() => markCompleted({ category, id })}
-            size="big"
-          />
-          <Icon
-            name="trash"
-            className="book-option"
-            onClick={() => deleteBook({ category, id })}
-            size="big"
-          />
-        </div>
-      </BookItemContainer>
-    </li>
-  );
-};
+          <div className="book-action-container">
+            <Icon
+              name="check"
+              className="book-option"
+              onClick={() => markCompleted({ category, id })}
+              size="big"
+            />
+          </div>
+          <Button onClick={this.show(false)}>None</Button>
+          <Modal open={open} onClose={this.close}>
+            <Modal.Header>Select a Photo</Modal.Header>
+            <Modal.Content image>
+              <Image wrapped size="medium" src={`${thumbnail_url}`} />
+              <Modal.Description>
+                <Header>Default Profile Image</Header>
+                <p>We've found the following gravatar image associated with your e-mail address.</p>
+                <p>Is it okay to use this photo?</p>
+              </Modal.Description>
+            </Modal.Content>
+          </Modal>
+        </BookItemContainer>
+      </li>
+    );
+  }
+}
 
 export default BookItem;
