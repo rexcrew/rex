@@ -6,8 +6,8 @@ const EntryListEntry = (props) => {
   if (props.category === 'books') {
     return (
       <div className="search-entry" onClick={() => { props.handleClick({}, props.data) }}>
-        <img className="book-image" src={props.data.imageUrl} alt="book thumbnail" />
-        <div className="book-data">
+        <img className="book-image result-image" src={props.data.imageUrl} alt="book thumbnail" />
+        <div className="book-data result-data">
           <h4>{props.data.title}</h4>
           <p>{props.data.author}</p>
           <Rating size="medium" maxRating={5} defaultRating={props.data.rating} disabled icon="star" />
@@ -17,10 +17,12 @@ const EntryListEntry = (props) => {
   } else if (props.category === 'food') {
     return (
       <div className="search-entry" onClick={() => { props.handleClick({}, props.data) }}>
-        <img className="restaurant-image" src={props.data.imageUrl} alt="restaurant thumbnail" />
-        <div className="restaurant-data">
+        <img className="restaurant-image result-image" src={props.data.imageUrl} height="130" width="130" alt="restaurant thumbnail" />
+        <div className="restaurant-data result-data">
           <h4>{props.data.name}</h4>
           <Rating size="medium" maxRating={5} defaultRating={props.data.rating} disabled icon="star" />
+          <p>{props.data.location[0]}</p>
+          <p>{props.data.location[1]}</p>
         </div>
       </div>
     );

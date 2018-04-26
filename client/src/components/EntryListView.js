@@ -105,6 +105,7 @@ class EntryListView extends React.Component {
       results: [],
       loading: true,
     });
+    const that = this;
 
     if (this.state.category === 'books') {
       const params = {
@@ -116,7 +117,6 @@ class EntryListView extends React.Component {
         `https://www.goodreads.com/search/index.xml?q=${params.q}&key=${params.key}`,
         { inputFormat: 'xml' },
       );
-      const that = this;
 
       axios.get(url).then((res) => {
         const resultItems = res.data.query.results.GoodreadsResponse.search.results.work;
@@ -134,21 +134,20 @@ class EntryListView extends React.Component {
         });
       });
     } else if (this.state.category === 'food') {
-      axios.request({
-        url: `${process.env.SERVER}/helpers/food`,
+      axios.get('/helpers/food', {
         params: {
           query: this.state.query,
           location: this.state.queryLocation,
         },
       }).then((results) => {
-        console.log(results.data);
         const restaurants = results.data.businesses.map(restaurant => ({
           id: restaurant.id,
           name: restaurant.name,
+          location: restaurant.location.display_address,
           rating: restaurant.rating,
-          imageUrl: restaurant.url,
+          imageUrl: restaurant.image_url,
         }));
-        this.setState({
+        that.setState({
           results: restaurants,
           loading: false,
         });
