@@ -1,22 +1,19 @@
 import React from 'react';
-import { Rating, Header, Container, Image } from 'semantic-ui-react';
+import { Progress, Header, Container, Image } from 'semantic-ui-react';
 
 const MusicDetail = (props) => {
   const {
-    title, authors, rating, imageUrl, description, yearPublished, link,
+    id, name, artist, album, popularity, preview, url, uri,
   } = props.result;
   return (
     <div>
       <Container>
-        <Header as="a" size="huge" href={link}>
-          {title}
+        <Header as="a" size="huge" href={url}>
+          {name}
         </Header>
-        <Header size="small">{authors}</Header>
-        <Rating defaultRating={rating} icon="star" disabled maxRating={5} />
-        <span>{rating}</span>
-        <Image as="a" href={link} src={imageUrl} size="small" floated="left" />
-        {description.map(paragraph => <p>{paragraph}</p>)}
-        <p>Year Published: {yearPublished}</p>
+        <Progress value={popularity} total="100" indicating/>
+        <Header size="small">{artist[0].name}</Header>
+        <iframe src={`https://open.spotify.com/embed?uri=${uri}`} width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
       </Container>
     </div>
   );

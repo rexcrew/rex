@@ -129,11 +129,10 @@ class EntryListView extends React.Component {
           });
         });
     } else if (this.state.category === 'music') {
-      self.setState({
-        resultDetail: {
-          name: data.name,
-        }
-      })
+      self.props.history.push({
+        pathname: `/entry/${data.id}`,
+        state: { result: data, category: self.state.category },
+      });
     }
   }
 
@@ -202,6 +201,9 @@ class EntryListView extends React.Component {
           artist: song.artists,
           album: song.album,
           popularity: song.popularity,
+          preview: song.preview_url,
+          url: song.external_urls.spotify,
+          uri: song.uri,
         }));
         that.setState({
           results: songs,
