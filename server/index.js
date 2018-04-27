@@ -1,9 +1,11 @@
+require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
 const session = require('express-session');
 const bcrypt = require('bcrypt');
 const uuidv4 = require('uuid/v4');
+const axios = require('axios');
 const { getSong } = require('../helpers/spotify');
 
 const authObj = {};
@@ -269,6 +271,36 @@ app.delete('/u/:userId/:category/:itemId', getUserId, (req, res) => {
   deleteQuery(DELETE_BOOK({ userId, category, itemId }))
     .then(sqlRes => res.json({ deleted: itemId }))
     .catch(err => console.log(err));
+});
+
+// HIT YELP API FOR RESTAURANT LIST
+app.get('/helpers/food', (req, res) => {
+  axios.request({
+    url: 'https://api.yelp.com/v3/businesses/search',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      Authorization: `Bearer ${process.env.YELP_API}`,
+    },
+    params: {
+      term: req.query.query,
+      location: req.query.location,
+      categories: 'restaurants',
+    },
+  }).then((results) => {
+    res.json(results.data);
+  }).catch(err=>console.error(err));
+});
+
+// YELP API FOR RESTAURANT DETAILS
+app.get('/helpers/food/details', (req, res) => {
+  axios.request({
+    url: `https://api.yelp.com/v3/businesses/${req.query.id}`,
+    headers: {
+      Authorization: `Bearer ${process.env.YELP_API}`,
+    },
+  }).then((results) => {
+    res.json(results.data);
+  });
 });
 
 app.get('/helpers/spotify', (req, res) => {

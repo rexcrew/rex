@@ -22,7 +22,7 @@
 
 .search-entry {
   display: grid;
-  grid-template-columns: 25% 75%;
+  grid-template-columns: 33% 66%;
   margin: 10px 0px;
 }
 
@@ -32,17 +32,39 @@
   cursor: pointer;
 }
 
-.book-image {
+.book-image,
+.result-image {
   grid-column: 1;
 }
 
+.restaurant-image {
+  border-radius: 33%;
+}
+
 .book-data,
-.book-data > h4 {
+.book-data > h4,
+.result-data > h4 {
   grid-column: 2;
   text-align: left;
+  margin-top: 15px;
+  margin-bottom: 5px;
+}
+
+.restaurant-data > p {
+  margin-bottom: 0px;
 }
 
 .entry-image {
   float: right;
   width: 30px;
+}
+
+@media (max-width: 500) {
+  .results {
+    width: 100%;
+  }
+  .search-entry {
+    display:grid;
+    grid-template-columns: 50% 50%;
+  }
 }
