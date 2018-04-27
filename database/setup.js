@@ -14,6 +14,7 @@ knex.schema
     table.increments();
     table.string('title').unique();
     table.string('url');
+    table.integer('api_id');
     table.string('thumbnail_url');
     table.text('description');
     table.float('rating');
