@@ -11,7 +11,7 @@ h5:first-child {
 body {
   padding: 50;
   font-family: 'Open Sans', sans-serif;
-  background: url('../images/wood.png') no-repeat center center fixed;
+  /* background: url('../images/wood.png') no-repeat center center fixed; */
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -90,18 +90,10 @@ i.icon.plus:before {
   cursor: pointer;
 }
 
-/* bottom right add button */
-button.add.circular.ui.icon {
-  position: absolute;
+.newRecButton {
+  position: fixed;
   bottom: 15px;
   right: 15px;
-}
-/* end - bottom right add button */
-
-/* round buttons */
-.ui.icon.button {
-  padding: 2.25rem;
-  margin: 0.5rem;
 }
 
 .round-button i.icon {
@@ -195,4 +187,19 @@ button.add.circular.ui.icon {
   .navbar-default .navbar-nav .open .dropdown-menu > li > a {
     color: #ffffff;
   }
+}
+
+.ui.icon.button {
+  padding: 2.25rem;
+  margin: 0.5rem;
+}
+
+@media only screen and (min-width: 992px) {
+  .ui.icon.button {
+    margin: 0.5rem 5rem;
+  }
+}
+
+.newRecBuffer {
+  height: 100px;
 }

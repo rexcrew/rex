@@ -2,8 +2,7 @@ import moment from 'moment';
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import { Icon, Popup, Image } from 'semantic-ui-react';
-import rex from '../images/rex.svg';
+import { Icon, Grid, Popup, Image, Button } from 'semantic-ui-react';
 
 import './BookItem.css';
 
@@ -11,7 +10,7 @@ const BookItemContainer = styled.div`
   display: flex;
   height: auto;
   border-bottom: 3px solid #2185d0;
-  padding: 15px;
+  padding: 15px auto;
   overflow: hidden;
 `;
 
@@ -19,14 +18,9 @@ class BookItem extends Component {
   state = {
     category: '',
     imageStatus: 'loading',
-    open: false,
   };
 
-  show = dimmer => () => this.setState({ dimmer, open: true });
-  close = () => this.setState({ open: false });
-
   render() {
-    const { open, dimmer } = this.state;
     const {
       id,
       book,
@@ -49,30 +43,52 @@ class BookItem extends Component {
     return (
       <li>
         <BookItemContainer>
-          <div>
-            <Popup
-              key={id}
-              trigger={<Image src={rex} avatar />}
-              content={`Recommended by ${rexers}`}
-            />
-          </div>
-          <div className="book-detail-container">
-            <div className="book-title-container">
-              <h2 className="book-title" onClick={handleClick}>
-                <Link to={{ pathname: `/browse/${id}`, query: { book, id, recommendations } }}>
+          <Grid columns={4}>
+            <Grid.Row>
+              <Grid.Column width={4} verticalAlign={'middle'}>
+                <Image src={`${book.thumbnail_url}`} size="tiny" />
+              </Grid.Column>
+              <Grid.Column width={8} verticalAlign={'middle'}>
+                <Link
+                  className={'title'}
+                  to={{ pathname: `/browse/${id}`, query: { book, id, recommendations } }}
+                >
                   {title}
                 </Link>
-              </h2>
-            </div>
-          </div>
-          <div className="book-action-container">
-            <Icon
-              name="check"
-              className="book-option"
-              onClick={() => markCompleted({ category, id })}
-              size="big"
-            />
-          </div>
+              </Grid.Column>
+              <Grid.Column width={2} floated={'right'} verticalAlign={'middle'}>
+                <Popup
+                  key={id}
+                  trigger={
+                    <Button
+                      circular
+                      className="upvote-item"
+                      color="blue"
+                      icon="thumbs up"
+                      floated={'right'}
+                    />
+                  }
+                  content={`Recommended by ${rexers}`}
+                />
+              </Grid.Column>
+              <Grid.Column width={2} floated={'right'} verticalAlign={'middle'}>
+                <Popup
+                  key={id}
+                  trigger={
+                    <Button
+                      circular
+                      className="upvote-item"
+                      color="green"
+                      icon="check"
+                      floated={'right'}
+                      onClick={() => markCompleted({ category, id })}
+                    />
+                  }
+                  content={'Mark complete'}
+                />
+              </Grid.Column>
+            </Grid.Row>
+          </Grid>
         </BookItemContainer>
       </li>
     );

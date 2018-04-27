@@ -66,7 +66,7 @@ class Home extends Component {
           />
         </div>
         <BrowseView />
-        <div className="newRec-button">
+        <div className="newRecBuffer">
           <NewRecommendationButton />
         </div>
       </div>
