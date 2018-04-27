@@ -21,7 +21,7 @@ const BookList = styled.ul`
 class BrowseView extends Component {
   state = {
     userId: 3,
-    activeItem: 'Recommendations',
+    activeItem: '',
     books: {},
     bookOrder: [],
     showCompleted: false,
@@ -168,10 +168,17 @@ class BrowseView extends Component {
       }
     };
 
-    // set state with the newly sorted array of books
-    const sortedArray = bookArray.sort(sortBooksByRecDate).map(([id, book]) => id);
+    const sortBooksByNumberOfRex = (book1, book2) => {
+      return book2[1].recommendations.length - book1[1].recommendations.length;
+    };
 
-    console.log(sortedArray);
+    // set state with the newly sorted array of books
+    let sortedArray;
+    if (sortType === 'Recommendations') {
+      sortedArray = bookArray.sort(sortBooksByNumberOfRex).map(([id, book]) => id);
+    } else {
+      sortedArray = bookArray.sort(sortBooksByRecDate).map(([id, book]) => id);
+    }
 
     this.setState({
       bookOrder: sortedArray,
@@ -202,7 +209,6 @@ class BrowseView extends Component {
             handleItemClick={this.handleItemClick}
             handleCompletedClick={this.handleCompletedClick}
           />
-
           <BookList>
             {bookOrder.length > 0 &&
               bookOrder.map(bookId => {
@@ -211,7 +217,19 @@ class BrowseView extends Component {
                 const recommendationCount = recommendations.length;
                 const { showCompleted } = this.state;
 
-                if (showCompleted || book.status === 'active') {
+                if (!showCompleted && book.status === 'active') {
+                  return (
+                    <BookItem
+                      handleClick={props => this.handleClick(props)}
+                      id={bookId}
+                      book={book}
+                      recommendations={recommendations}
+                      deleteBook={deletedInfo => this.deleteBook(deletedInfo)}
+                      markCompleted={this.markCompleted}
+                      category={category}
+                    />
+                  );
+                } else if (showCompleted && book.status === 'completed') {
                   return (
                     <BookItem
                       handleClick={props => this.handleClick(props)}

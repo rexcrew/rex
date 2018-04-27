@@ -18,14 +18,9 @@ class BookItem extends Component {
   state = {
     category: '',
     imageStatus: 'loading',
-    open: false,
   };
 
-  show = dimmer => () => this.setState({ dimmer, open: true });
-  close = () => this.setState({ open: false });
-
   render() {
-    const { open, dimmer } = this.state;
     const {
       id,
       book,
