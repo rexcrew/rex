@@ -112,15 +112,15 @@ class EntryListView extends React.Component {
         }).then((res) => {
           self.setState({
             resultDetail: {
-              name: res.name,
-              rating: res.rating,
-              id: res.id,
-              url: res.url,
-              phone: res.display_phone,
-              location: res.display_address,
-              photos: res.photos,
-              price: res.price,
-              categories: res.categories,
+              name: res.data.name,
+              rating: res.data.rating,
+              id: res.data.id,
+              url: res.data.url,
+              phone: res.data.display_phone,
+              location: res.data.location.display_address,
+              photos: res.data.photos,
+              price: res.data.price,
+              categories: res.data.categories,
             },
           });
           self.props.history.push({
@@ -128,6 +128,12 @@ class EntryListView extends React.Component {
             state: { result: self.state.resultDetail, category: self.state.category },
           });
         });
+    } else if (this.state.category === 'music') {
+      self.setState({
+        resultDetail: {
+          name: data.name,
+        }
+      })
     }
   }
 
@@ -223,6 +229,7 @@ class EntryListView extends React.Component {
       category: data.value,
       results: [],
     });
+    this.search();
   }
 
   updateQuery(e) {
