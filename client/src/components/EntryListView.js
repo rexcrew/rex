@@ -10,6 +10,7 @@ import _ from 'lodash';
 import NavBar from './NavBar';
 import './EntryListView.css';
 import EntryListEntry from './EntryListEntry';
+import NewRexButton from './NewRexButton';
 
 // Category, searchbar, API results for adding recommendations
 class EntryListView extends React.Component {
@@ -294,6 +295,9 @@ class EntryListView extends React.Component {
                 handleClick={this.handleResultSelect}
               />
             ))}
+          </div>
+          <div className="newRecBuffer">
+            <NewRexButton />
           </div>
         </Container>
       </div>
