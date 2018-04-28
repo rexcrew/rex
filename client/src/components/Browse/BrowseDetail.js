@@ -8,31 +8,13 @@ import BrowseBookDetail from './BrowseBookDetail';
 import NavBar from '../NavBar';
 import AddRecommenderForm from './AddRecommenderForm';
 import './BrowseDetail.css';
+import CheckOutButton from '../Forms/CheckOutButton';
 
 const BrowseContainer = styled.div`
   width: 100%;
   padding: 20px;
   margin: 30px;
 `;
-
-const CheckOutButton = props => (
-  <Popup
-    className="popup-box"
-    trigger={
-      <Button
-        className="checkout-button"
-        color="blue"
-        as="a"
-        target="_blank"
-        href={props.url}
-        icon="search"
-        content="Check it out"
-      />
-    }
-    content="Search for more information about the book."
-    on="hover"
-  />
-);
 
 class BrowseDetail extends React.Component {
   state = {

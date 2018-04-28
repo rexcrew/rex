@@ -5,6 +5,7 @@ import FoodDetail from './FoodDetail';
 import MusicDetail from './MusicDetail';
 import RecommendationEntry from './RecommendationEntry';
 import NavBar from '../NavBar';
+import NewRexButton from '../NewRexButton';
 
 const EntryDetail = (props) => {
   const target = props.location.state.result;
@@ -25,6 +26,9 @@ const EntryDetail = (props) => {
       </div>
       <div>
         <RecommendationEntry userId={props.userId} entry={target} category={category} />
+      </div>
+      <div className="newRecBuffer">
+        <NewRexButton />
       </div>
     </div>
   );
