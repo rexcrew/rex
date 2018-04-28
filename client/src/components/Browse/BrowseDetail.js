@@ -9,6 +9,7 @@ import NavBar from '../NavBar';
 import AddRecommenderForm from './AddRecommenderForm';
 import './BrowseDetail.css';
 import CheckOutButton from '../Forms/CheckOutButton';
+import NewRecButton from '../NewRexButton';
 
 const BrowseContainer = styled.div`
   width: 100%;
@@ -60,6 +61,9 @@ class BrowseDetail extends React.Component {
               <div className="back-button"> {`< back`}</div>
             </Link>
           </div>
+        </div>
+        <div className="newRecBuffer">
+          <NewRexButton />
         </div>
       </div>
     );
