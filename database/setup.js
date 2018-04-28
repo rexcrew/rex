@@ -1,3 +1,4 @@
+require('dotenv').config();
 const knex = require('knex')({
   client: 'pg',
   version: '7.2',
@@ -33,7 +34,7 @@ knex.schema
     table.integer('item_id');
     table.text('comment');
     table.string('recommender_name');
-    table.string('status');
+    table.string('status').defaultTo('active');
     table.string('category');
     table.float('user_rating');
     table.timestamp('date_added', true);
