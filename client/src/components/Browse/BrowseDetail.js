@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
+import { Link, withRouter } from 'react-router-dom';
 import { Button, Popup, Item, Form, Input, TextArea } from 'semantic-ui-react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
 
 import RecommendationListItem from './RecommendationListItem';
 import BrowseBookDetail from './BrowseBookDetail';
@@ -34,7 +34,7 @@ const CheckOutButton = props => (
   />
 );
 
-class BrowseDetail extends Component {
+class BrowseDetail extends React.Component {
   state = {
     book: this.props.location.query.book,
     recs: this.props.location.query.recommendations,
@@ -46,15 +46,13 @@ class BrowseDetail extends Component {
     this.setState({
       recs: clickedBookRec,
     });
-    console.log('this.state after~~~~', this.state);
   };
 
   render() {
-    console.log(this.props.location);
     const target = this.props.location.query;
     return (
       <div>
-        <NavBar />
+        <NavBar loggedIn={true} handleAuth={this.props.handleAuth} />
         <header className="book-detail">
           <BrowseBookDetail book={this.state.book} />
         </header>
@@ -86,4 +84,5 @@ class BrowseDetail extends Component {
   }
 }
 
-export default BrowseDetail;
+// export default BrowseDetail;
+export default withRouter(BrowseDetail);

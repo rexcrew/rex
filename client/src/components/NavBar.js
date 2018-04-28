@@ -27,7 +27,7 @@ class NavBar extends Component {
           <Navbar.Header>
             <Navbar.Brand>
               <Link to="/">
-                <span>
+                <span className="logo-img">
                   <img src={rex} height="45" />
                   Rex
                 </span>
@@ -62,7 +62,7 @@ class NavBar extends Component {
 const Profile = () => (
   <Nav>
     <NavItem eventKey={2} href="#">
-      Profile
+      <Link to="/profile">Profile</Link>
     </NavItem>
   </Nav>
 );

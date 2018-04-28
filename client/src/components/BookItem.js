@@ -29,9 +29,13 @@ class BookItem extends Component {
       deleteBook,
       category,
       handleClick,
-      userId
+      userId,
     } = this.props;
     const { title, description, thumbnail_url } = book;
+    let shortTitle;
+    if (title.length > 20) {
+      shortTitle = title.slice(0, 25);
+    }
     const firstRecommender = recommendations[0];
     let rexers = recommendations.map(rec => rec.recommender_name);
     const lastRexer = rexers.pop();
@@ -50,12 +54,21 @@ class BookItem extends Component {
                 <Image src={`${book.thumbnail_url}`} size="tiny" />
               </Grid.Column>
               <Grid.Column width={8} verticalAlign={'middle'}>
-                <Link
-                  className={'title'}
-                  to={{ pathname: `/browse/${id}`, query: { book, id, recommendations, userId } }}
-                >
-                  {title}
-                </Link>
+                <Popup
+                  key={id}
+                  trigger={
+                    <Link
+                      className={'title'}
+                      to={{
+                        pathname: `/browse/${id}`,
+                        query: { book, id, recommendations, userId },
+                      }}
+                    >
+                      {shortTitle || title}
+                    </Link>
+                  }
+                  content={title}
+                />
               </Grid.Column>
               <Grid.Column width={2} floated={'right'} verticalAlign={'middle'}>
                 <Popup

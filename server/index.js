@@ -15,7 +15,7 @@ const {
   insertQuery,
   updateQuery,
   deleteQuery,
-  validateQuery
+  validateQuery,
 } = require('../database/index');
 // SQL queries
 const {
@@ -29,7 +29,7 @@ const {
   ADD_REC_AND_BOOK,
   UPDATE_RECOMMENDATION,
   ADD_REC_TO_EXISTING_BOOK,
-  CHECK_EXISTING_REC
+  CHECK_EXISTING_REC,
 } = require('../database/queries');
 
 // Middleware to retrieve userId from request
@@ -49,14 +49,12 @@ const app = express();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(
-  session({
-    secret: 'keyboard cat',
-    cookie: { maxAge: 24 * 60 * 60 * 1000 },
-    resave: true,
-    saveUninitialized: false
-  })
-);
+app.use(session({
+  secret: 'keyboard cat',
+  cookie: { maxAge: 24 * 60 * 60 * 1000 },
+  resave: true,
+  saveUninitialized: false,
+}));
 
 app.use(express.static(`${__dirname}/../client/dist`));
 
@@ -64,8 +62,10 @@ app.use(express.static(`${__dirname}/../client/dist`));
 app.post('/login', (req, res) => {
   const { username, password } = req.body;
   promiseQuery(FIND_USER(username))
-    .then(sqlResponse => {
-      const { id, password: hash } = sqlResponse[0];
+    .then((sqlResponse) => {
+      const {
+        id, password: hash, first_name, last_name,
+      } = sqlResponse[0];
       bcrypt.compare(password, hash, (err, doesMatch) => {
         if (err) {
           console.error(err);
@@ -73,13 +73,19 @@ app.post('/login', (req, res) => {
           const key = uuidv4();
           authObj[key] = id;
           req.session.uuid = key;
-          res.send({ isAuthenticated: true, username, id });
+          res.send({
+            isAuthenticated: true,
+            username,
+            id,
+            first_name,
+            last_name,
+          });
         } else {
           res.send({ isAuthenticated: false });
         }
       });
     })
-    .catch(err => {
+    .catch((err) => {
       console.error(err);
       // send 'invalid username' message;
     });
@@ -93,26 +99,26 @@ app.get('/logout', (req, res) => {
 
 // SIGNUP
 app.post('/signup', (req, res) => {
-  const { username, password, firstName, lastName } = req.body;
+  const {
+    username, password, firstName, lastName,
+  } = req.body;
   promiseQuery(FIND_USER(username))
-    .then(user => {
+    .then((user) => {
       if (!user.length) {
         bcrypt.hash(password, 10, (err, hash) => {
-          insertQuery(ADD_USER(username, hash, firstName, lastName)).then(
-            sqlResponse => {
-              const { id } = sqlResponse[0][0];
-              const key = uuidv4();
-              authObj[key] = id;
-              req.session.uuid = key;
-              res.json({ isAuthenticated: true, username });
-            }
-          );
+          insertQuery(ADD_USER(username, hash, firstName, lastName)).then((sqlResponse) => {
+            const { id } = sqlResponse[0][0];
+            const key = uuidv4();
+            authObj[key] = id;
+            req.session.uuid = key;
+            res.json({ isAuthenticated: true, username });
+          });
         });
       } else {
         res.json({ isAuthenticated: false, username: null });
       }
     })
-    .catch(error => {
+    .catch((error) => {
       throw error;
     });
 });
@@ -123,7 +129,7 @@ app.get('/u/:userId/:category', getUserId, (req, res) => {
   const { userId } = req;
 
   promiseQuery(FETCH_BOOKS(userId, category))
-    .then(books => {
+    .then((books) => {
       const parsedBooks = books.reduce((bookItems, recommendation) => {
         const {
           rec_id,
@@ -138,14 +144,14 @@ app.get('/u/:userId/:category', getUserId, (req, res) => {
           description,
           url,
           status,
-          user_rating
+          user_rating,
         } = recommendation;
 
         const recEntry = {
           recommender_id,
           recommender_name,
           comment,
-          date_added
+          date_added,
         };
 
         const book = {
@@ -154,7 +160,7 @@ app.get('/u/:userId/:category', getUserId, (req, res) => {
           description,
           url,
           status,
-          user_rating
+          user_rating,
         };
 
         if (item_id in bookItems) {
@@ -162,7 +168,7 @@ app.get('/u/:userId/:category', getUserId, (req, res) => {
         } else {
           bookItems[item_id] = {
             book,
-            recommendations: [recEntry]
+            recommendations: [recEntry],
           };
         }
 
@@ -176,7 +182,9 @@ app.get('/u/:userId/:category', getUserId, (req, res) => {
 // ADD RECOMMENDATION WHEN BOOKID KNOWN
 app.post('/r/:category/:bookId', getUserId, (req, res) => {
   const { category, bookId } = req.params;
-  const { id, firstName, lastName, comments } = req.body;
+  const {
+    id, firstName, lastName, comments,
+  } = req.body;
   const { userId } = req;
   const recInfo = {
     userId,
@@ -184,7 +192,7 @@ app.post('/r/:category/:bookId', getUserId, (req, res) => {
     id,
     firstName,
     lastName,
-    comments
+    comments,
   };
   insertQuery(ADD_REC_TO_EXISTING_BOOK(recInfo))
     .then(sqlResponse => res.json({ inserted: 'success' }))
@@ -194,18 +202,20 @@ app.post('/r/:category/:bookId', getUserId, (req, res) => {
 // ADD NEW RECOMMENDATION
 app.post('/u/:userId/:category/', getUserId, (req, res) => {
   const { category } = req.params;
-  const { apiId, firstName, lastName, comments } = req.body;
+  const {
+    apiId, firstName, lastName, comments,
+  } = req.body;
 
   const { userId } = req;
 
   console.log('adding recommendation');
 
   promiseQuery(CHECK_BOOK({ apiId }))
-    .then(bookIdObj => {
+    .then((bookIdObj) => {
       const bookId = bookIdObj[0].id;
       console.log('book in db');
 
-      validateQuery(CHECK_EXISTING_REC({ userId, apiId })).then(exist => {
+      validateQuery(CHECK_EXISTING_REC({ userId, apiId })).then((exist) => {
         const recommendationsExist = exist[0][0].exists;
 
         if (recommendationsExist) {
@@ -217,7 +227,7 @@ app.post('/u/:userId/:category/', getUserId, (req, res) => {
             comments,
             category,
             userId,
-            bookId
+            bookId,
           };
 
           insertQuery(ADD_REC(recommendationInfo))
@@ -226,7 +236,7 @@ app.post('/u/:userId/:category/', getUserId, (req, res) => {
         }
       });
     })
-    .catch(bookNotInDB => {
+    .catch((bookNotInDB) => {
       insertQuery(ADD_REC_AND_BOOK({ ...req.body, userId }))
         .then(sqlResponse => res.json({ inserted: 'success' }))
         .catch(err => console.log(err));
@@ -247,16 +257,14 @@ app.put('/u/:userId/:category/:itemId', getUserId, (req, res) => {
   const { status, rating } = req.body;
   const { userId } = req;
 
-  updateQuery(
-    UPDATE_RECOMMENDATION({
-      userId,
-      category,
-      itemId,
-      status,
-      rating
-    })
-  )
-    .then(sqlRes => {
+  updateQuery(UPDATE_RECOMMENDATION({
+    userId,
+    category,
+    itemId,
+    status,
+    rating,
+  }))
+    .then((sqlRes) => {
       res.send('recommendation successfully updated');
     })
     .catch(err => console.log('could not update'));
@@ -274,32 +282,37 @@ app.delete('/u/:userId/:category/:itemId', getUserId, (req, res) => {
 
 // HIT YELP API FOR RESTAURANT LIST
 app.get('/helpers/food', (req, res) => {
-  axios.request({
-    url: 'https://api.yelp.com/v3/businesses/search',
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-      Authorization: `Bearer ${process.env.YELP_API}`,
-    },
-    params: {
-      term: req.query.query,
-      location: req.query.location,
-      categories: 'restaurants',
-    },
-  }).then((results) => {
-    res.json(results.data);
-  }).catch(err=>console.error(err));
+  axios
+    .request({
+      url: 'https://api.yelp.com/v3/businesses/search',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        Authorization: `Bearer ${process.env.YELP_API}`,
+      },
+      params: {
+        term: req.query.query,
+        location: req.query.location,
+        categories: 'restaurants',
+      },
+    })
+    .then((results) => {
+      res.json(results.data);
+    })
+    .catch(err => console.error(err));
 });
 
 // YELP API FOR RESTAURANT DETAILS
 app.get('/helpers/food/details', (req, res) => {
-  axios.request({
-    url: `https://api.yelp.com/v3/businesses/${req.query.id}`,
-    headers: {
-      Authorization: `Bearer ${process.env.YELP_API}`,
-    },
-  }).then((results) => {
-    res.json(results.data);
-  });
+  axios
+    .request({
+      url: `https://api.yelp.com/v3/businesses/${req.query.id}`,
+      headers: {
+        Authorization: `Bearer ${process.env.YELP_API}`,
+      },
+    })
+    .then((results) => {
+      res.json(results.data);
+    });
 });
 
 app.get('/helpers/spotify', (req, res) => {
