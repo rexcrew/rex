@@ -212,6 +212,10 @@ class EntryListView extends React.Component {
         });
       });
     }
+    if (this.state.query === '') {
+      this.setState({ loading: false });
+    }
+
   }
 
   //   // Beginning of using movies API
@@ -266,7 +270,7 @@ class EntryListView extends React.Component {
         <NavBar loggedIn handleAuth={this.props.handleAuth} />
         <Container>
           <div className="page-title">
-            <h1>Add New Recommendations</h1>
+            <h1>Add New Rex</h1>
           </div>
 
           <Dropdown
@@ -286,7 +290,7 @@ class EntryListView extends React.Component {
             }}
           />
           {locationSearch}
-          <div className="results">
+          <div className="results test">
             {this.state.results.map((res, i) => (
               <EntryListEntry
                 data={res}

@@ -7,7 +7,7 @@
 .ui.search,
 .results {
   margin: 15px auto;
-  width: 60%;
+  width: 100%;
 }
 
 .ui.input.search > input {
@@ -35,6 +35,8 @@
 .book-image,
 .result-image {
   grid-column: 1;
+  margin: auto;
+  overflow: hidden;
 }
 
 .restaurant-image {
@@ -45,7 +47,7 @@
 .book-data > h4,
 .result-data > h4 {
   grid-column: 2;
-  text-align: left;
+  text-align: center;
   margin-top: 15px;
   margin-bottom: 5px;
 }
@@ -59,12 +61,12 @@
   width: 30px;
 }
 
-@media (max-width: 500) {
-  .results {
+@media screen and (max-width: 500) {
+  div.results.test {
     width: 100%;
   }
   .search-entry {
     display:grid;
-    grid-template-columns: 50% 50%;
+    grid-template-columns: 25% 75%;
   }
 }

@@ -45,9 +45,8 @@ label {
 
 div.ui.selection.dropdown,
 div.ui.search {
-  width: 60%;
-  margin-left: 25%;
-  max-width: 500px;
+  width: 100%;
+  margin: 5px 0;
   border-radius: 20px;
 }
 i.icon.plus:before {
