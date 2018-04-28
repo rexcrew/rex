@@ -24,7 +24,7 @@ const EntryDetail = (props) => {
         {detail}
       </div>
       <div>
-        <RecommendationEntry entry={target} category={category} />
+        <RecommendationEntry userId={props.userId} entry={target} category={category} />
       </div>
     </div>
   );

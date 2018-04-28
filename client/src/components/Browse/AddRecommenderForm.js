@@ -23,7 +23,7 @@ class AddRecommenderForm extends Component {
       comments,
     };
     const category = 'books';
-    const userId = 1;
+    const userId = this.props.userId;
     //update recommendation table,
     console.log('this', this);
     fetch(`/r/${category}/${bookInfo.id}`, {

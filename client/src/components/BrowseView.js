@@ -20,7 +20,7 @@ const BookList = styled.ul`
 
 class BrowseView extends Component {
   state = {
-    userId: 1,
+    userId: this.props.userId,
     activeItem: '',
     books: {},
     bookOrder: [],
@@ -222,6 +222,7 @@ class BrowseView extends Component {
                     <BookItem
                       handleClick={props => this.handleClick(props)}
                       id={bookId}
+                      userId={this.state.userId}
                       book={book}
                       recommendations={recommendations}
                       deleteBook={deletedInfo => this.deleteBook(deletedInfo)}
@@ -235,6 +236,7 @@ class BrowseView extends Component {
                     <BookItem
                       handleClick={props => this.handleClick(props)}
                       id={bookId}
+                      userId={this.state.userId}
                       book={book}
                       recommendations={recommendations}
                       deleteBook={deletedInfo => this.deleteBook(deletedInfo)}

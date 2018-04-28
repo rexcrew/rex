@@ -29,6 +29,7 @@ class BookItem extends Component {
       deleteBook,
       category,
       handleClick,
+      userId
     } = this.props;
     const { title, description, thumbnail_url } = book;
     const firstRecommender = recommendations[0];
@@ -51,7 +52,7 @@ class BookItem extends Component {
               <Grid.Column width={8} verticalAlign={'middle'}>
                 <Link
                   className={'title'}
-                  to={{ pathname: `/browse/${id}`, query: { book, id, recommendations } }}
+                  to={{ pathname: `/browse/${id}`, query: { book, id, recommendations, userId } }}
                 >
                   {title}
                 </Link>

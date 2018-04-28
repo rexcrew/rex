@@ -26,7 +26,7 @@ class RecommendationEntry extends Component {
     const {title, authors, description, imageUrl, link, rating, yearPublished, apiId } = this.props.entry;
 
     const category = this.props.category;
-    const userId = 1;
+    const userId = this.props.userId;
     const bookInfo = {
       title,
       imageUrl,

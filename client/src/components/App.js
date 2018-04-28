@@ -17,10 +17,11 @@ class App extends Component {
   state = {
     isAuthenticated: false,
     username: '',
+    id: '',
   };
 
-  handleAuth({ isAuthenticated, username }) {
-    this.setState({ isAuthenticated, username });
+  handleAuth({ isAuthenticated, username, id }) {
+    this.setState({ isAuthenticated, username, id });
   }
 
   // On Mount, gets authentication from server, sets state of isAuthenticated
@@ -37,7 +38,7 @@ class App extends Component {
   }
 
   render() {
-    const { username, isAuthenticated } = this.state;
+    const { username, isAuthenticated, id } = this.state;
 
     // If state authenticated, loads homepage, otherwise login / signup
     if (isAuthenticated) {
@@ -46,10 +47,10 @@ class App extends Component {
           <Route
             exact
             path="/"
-            render={() => <Home username={username} handleAuth={this.handleAuth.bind(this)} />}
+            render={() => <Home username={username} userId={id} handleAuth={this.handleAuth.bind(this)} />}
           />
           <Route path="/browse/:bookId" component={BrowseDetail} />
-          <Route path="/entry/:bookId" component={EntryDetail} />
+          <Route path="/entry/:bookId" component={EntryDetail} userId={id} />
           <Route
             exact
             path="/entry"
