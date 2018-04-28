@@ -9,7 +9,7 @@ import NavBar from '../NavBar';
 import AddRecommenderForm from './AddRecommenderForm';
 import './BrowseDetail.css';
 import CheckOutButton from '../Forms/CheckOutButton';
-import NewRecButton from '../NewRexButton';
+import NewRexButton from '../NewRexButton';
 
 const BrowseContainer = styled.div`
   width: 100%;
