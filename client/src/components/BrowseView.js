@@ -20,7 +20,7 @@ const BookList = styled.ul`
 
 class BrowseView extends Component {
   state = {
-    userId: 3,
+    userId: 1,
     activeItem: '',
     books: {},
     bookOrder: [],
