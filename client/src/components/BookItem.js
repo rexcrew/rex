@@ -33,8 +33,8 @@ class BookItem extends Component {
     } = this.props;
     const { title, description, thumbnail_url } = book;
     let shortTitle;
-    if (title.length > 20) {
-      shortTitle = title.slice(0, 25);
+    if (title.length > 35) {
+      shortTitle = `${title.slice(0, 35)}...`;
     }
     const firstRecommender = recommendations[0];
     let rexers = recommendations.map(rec => rec.recommender_name);
