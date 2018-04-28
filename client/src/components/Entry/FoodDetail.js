@@ -11,7 +11,7 @@ const FoodDetail = (props) => {
         <Header as="a" size="huge" href={url}>
           {name}
         </Header>
-        <p>{categories.map(category => ('category.title '))}</p>
+        <p>{categories.map(category => (`${category.title} `))}</p>
         <Rating defaultRating={rating} size="huge" icon="star" disabled maxRating={5} />
         <Header size="small">{phone}</Header>
         <Header>{location.map(loc => (<div>{loc}</div>))}</Header>

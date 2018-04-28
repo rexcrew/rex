@@ -212,6 +212,10 @@ class EntryListView extends React.Component {
         });
       });
     }
+    if (this.state.query === '') {
+      this.setState({ loading: false });
+    }
+
   }
 
   //   // Beginning of using movies API
