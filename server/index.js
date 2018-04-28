@@ -73,7 +73,7 @@ app.post('/login', (req, res) => {
           const key = uuidv4();
           authObj[key] = id;
           req.session.uuid = key;
-          res.send({ isAuthenticated: true, username });
+          res.send({ isAuthenticated: true, username, id });
         } else {
           res.send({ isAuthenticated: false });
         }

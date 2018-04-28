@@ -65,7 +65,7 @@ class Home extends Component {
             icon="film"
           />
         </div>
-        <BrowseView />
+        <BrowseView userId={this.props.userId} />
         <div className="newRecBuffer">
           <NewRecommendationButton />
         </div>
