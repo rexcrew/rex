@@ -35,11 +35,11 @@ class BrowseView extends Component {
     const { userId } = this.state;
     // Use 'category' and 'categoryItems' to eventually add other categories
     // For now, category and sort is hard-coded to books
-
+    const that = this;
     fetch(`/u/${userId}/${category}`)
       .then(res => res.json())
       .then(categoryItems => {
-        this.setState({
+        that.setState({
           [category]: categoryItems,
           bookOrder: Object.entries(categoryItems).map(([key, val]) => key),
         });
@@ -216,9 +216,9 @@ class BrowseView extends Component {
                 const { book, recommendations } = bookInfo;
                 const recommendationCount = recommendations.length;
                 const { showCompleted } = this.state;
-
                 if (!showCompleted && book.status === 'active') {
                   return (
+                    <div>
                     <BookItem
                       handleClick={props => this.handleClick(props)}
                       id={bookId}
@@ -228,6 +228,7 @@ class BrowseView extends Component {
                       markCompleted={this.markCompleted}
                       category={category}
                     />
+                    </div>
                   );
                 } else if (showCompleted && book.status === 'completed') {
                   return (

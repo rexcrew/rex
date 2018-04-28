@@ -169,7 +169,6 @@ app.get('/u/:userId/:category', getUserId, (req, res) => {
         return bookItems;
       }, {});
       res.json(parsedBooks);
-      res.end();
     })
     .catch(err => res.end('404', err));
 });
