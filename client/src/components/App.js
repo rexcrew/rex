@@ -7,6 +7,7 @@ import axios from 'axios';
 import { Navbar } from 'react-bootstrap';
 // Components
 import Home from './Home';
+import Profile from './Profile';
 import EntryDetail from './Entry/EntryDetail';
 import BrowseDetail from './Browse/BrowseDetail';
 import EntryListView from './EntryListView';
@@ -17,11 +18,13 @@ class App extends Component {
   state = {
     isAuthenticated: false,
     username: '',
+    first_name: '',
+    last_name: '',
     id: '',
   };
 
-  handleAuth({ isAuthenticated, username, id }) {
-    this.setState({ isAuthenticated, username, id });
+  handleAuth({ isAuthenticated, username, id, first_name, last_name }) {
+    this.setState({ isAuthenticated, username, id, first_name, last_name });
   }
 
   // On Mount, gets authentication from server, sets state of isAuthenticated
@@ -38,7 +41,7 @@ class App extends Component {
   }
 
   render() {
-    const { username, isAuthenticated, id } = this.state;
+    const { username, isAuthenticated, id, first_name, last_name } = this.state;
 
     // If state authenticated, loads homepage, otherwise login / signup
     if (isAuthenticated) {
@@ -47,9 +50,25 @@ class App extends Component {
           <Route
             exact
             path="/"
-            render={() => <Home username={username} userId={id} handleAuth={this.handleAuth.bind(this)} />}
+            render={() => (
+              <Home username={username} userId={id} handleAuth={this.handleAuth.bind(this)} />
+            )}
           />
-          <Route path="/browse/:bookId" component={BrowseDetail} />
+          <Route
+            path="/profile"
+            render={() => (
+              <Profile
+                username={username}
+                firstName={first_name}
+                lastName={last_name}
+                handleAuth={this.handleAuth.bind(this)}
+              />
+            )}
+          />
+          <Route
+            path="/browse/:bookId"
+            render={() => <BrowseDetail handleAuth={this.handleAuth.bind(this)} />}
+          />
           <Route path="/entry/:bookId" component={EntryDetail} userId={id} />
           <Route
             exact

@@ -9,14 +9,7 @@ import { Dropdown, Menu, Button, Container, Header, Icon, Table, Grid } from 'se
 import { Row, Col } from 'reactstrap';
 
 import BookDetail from './Entry/BookDetail';
-
-const NewRecommendationButton = () => (
-  <div className="newRecButton">
-    <Link to="/entry">
-      <Button circular className="add round-button" size="massive" color="red" icon="plus" />
-    </Link>
-  </div>
-);
+import NewRexButton from './NewRexButton.js';
 
 class Home extends Component {
   state = {
@@ -67,36 +60,8 @@ class Home extends Component {
         </div>
         <BrowseView userId={this.props.userId} />
         <div className="newRecBuffer">
-          <NewRecommendationButton />
+          <NewRexButton />
         </div>
-      </div>
-    );
-  }
-}
-
-class FindRecommendationButton extends Component {
-  state = {
-    category: '',
-  };
-
-  render() {
-    return (
-      <div>
-        <Menu vertical>
-          <Dropdown text="Find Something from" pointing="left" className="link item">
-            <Dropdown.Menu>
-              <Dropdown.Item
-                onClick={() => {
-                  this.setState({ category: 'books' });
-                }}
-              >
-                <Link to="/browse">Books</Link>
-              </Dropdown.Item>
-              <Dropdown.Item>Movies</Dropdown.Item>
-              <Dropdown.Item>Restaurants</Dropdown.Item>
-            </Dropdown.Menu>
-          </Dropdown>
-        </Menu>
       </div>
     );
   }
