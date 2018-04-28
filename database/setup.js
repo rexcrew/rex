@@ -2,9 +2,9 @@ const knex = require('knex')({
   client: 'pg',
   version: '7.2',
   connection: {
-    host: 'localhost',
-    user: 'grant',
-    password: null,
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASS,
     database: 'rex'
   }
 });
@@ -31,11 +31,12 @@ knex.schema
     table.integer('recommender_id');
     table.integer('user_id');
     table.integer('item_id');
+    table.text('comment');
     table.string('recommender_name');
     table.string('status');
-    table.string('catagory');
+    table.string('category');
     table.float('user_rating');
-    table.timestamps('date_added', true);
+    table.timestamp('date_added', true);
   })
   .then(done => {
     console.log('done: ' + done);
